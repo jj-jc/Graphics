@@ -9,6 +9,7 @@ const uint16_t WINDOW_WIDTH = 800;
 
 void framebuffer_size_callback(GLFWwindow *window, uint16_t width, uint16_t height);
 void processInput(GLFWwindow *window);
+int getMaxVertexAttribs();
 
 int main(int argc, char *argv[])
 {
@@ -51,21 +52,38 @@ int main(int argc, char *argv[])
     /////////////////////////
     Shader triangleShader("C:/Dev/Graphics/resources/shaders/triangle.vs", "C:/Dev/Graphics/resources/shaders/triangle.fs");
 
-    float vertices[] = {
-        // positions         // colors
-        0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f,  // bottom right
-        -0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, // bottom left
-        0.0f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f    // top
-    };
+    float vertices[] =
+        {
+            // positions      // colors
+            0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,  // middle right
+            -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, // middle left
+            0.0f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f,  // top
+            0.0f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f  // bottom
 
-    unsigned int VBO, VAO;
+        };
+
+    unsigned int indices[] = // It must to be unsigned int allways
+        {
+            0,
+            1,
+            2, // top triangle
+            0,
+            1,
+            3 // bottom triangle
+        };
+
+    unsigned int VBO, VAO, EBO;
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
+    glGenBuffers(1, &EBO);
     // bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
     glBindVertexArray(VAO);
 
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO); // bind the new buffer to a Veretex Buffer Object
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
     // position attribute
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void *)0);
@@ -76,6 +94,12 @@ int main(int argc, char *argv[])
 
     glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
     glfwSetFramebufferSizeCallback(window, (GLFWframebuffersizefun)framebuffer_size_callback);
+
+    // Configure how GL draw its primitives:
+    // GL_FILL -> normal
+    // GL_LINE -> wireframe mode
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
     while (!glfwWindowShouldClose(window))
     {
@@ -89,7 +113,9 @@ int main(int argc, char *argv[])
         // rendering command here
         triangleShader.use();
         glBindVertexArray(VAO);
-        glDrawArrays(GL_TRIANGLES, 0, 3);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        // glDrawArrays(GL_TRIANGLES, 0, 3);
+        glBindVertexArray(0);
 
         // swap buffers
         glfwSwapBuffers(window);
@@ -111,4 +137,12 @@ void processInput(GLFWwindow *window)
 {
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
+}
+
+// return GL_MAX_VERTEX_ATTRIB
+int getMaxVertexAttribs()
+{
+    int nrAttribs = 0;
+    glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &nrAttribs);
+    return nrAttribs;
 }
