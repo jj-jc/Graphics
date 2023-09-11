@@ -68,6 +68,11 @@ public:
         glDeleteShader(vertex);
         glDeleteShader(fragment);
     }
+    // returns the ID
+    unsigned int getProgramID()
+    {
+        return ID;
+    }
     // activate the shader
     // ------------------------------------------------------------------------
     void use()
