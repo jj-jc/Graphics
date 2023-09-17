@@ -1,4 +1,5 @@
 // #include <iostream>
+#define GLFW_INCLUDE_NONE // to void compilation problems with extension loading library
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <stb_image.h>
@@ -10,15 +11,13 @@ const uint16_t WINDOW_WIDTH = 800;
 
 void framebuffer_size_callback(GLFWwindow *window, uint16_t width, uint16_t height);
 void processInput(GLFWwindow *window);
-int getMaxVertexAttribs(); // return GL_MAX_VERTEX_ATTRIB
+int getMaxVertexAttribs();// return GL_MAX_VERTEX_ATTRIB
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
     /////////////////////////
     // Setting GL Context
     /////////////////////////
-    if (!glfwInit())
-    {
+    if (!glfwInit()) {
         fprintf(stderr, "Failed to initialize glfw\n");
         exit(EXIT_FAILURE);
     }
@@ -28,8 +27,7 @@ int main(int argc, char *argv[])
 
     GLFWwindow *window = nullptr;
     window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Hello Textures", NULL, NULL);
-    if (!window)
-    {
+    if (!window) {
         fprintf(stderr, "Failer to create a glfwWindow\n");
         glfwTerminate();
         exit(EXIT_FAILURE);
@@ -37,13 +35,12 @@ int main(int argc, char *argv[])
     // must do this before load glad library!!!
     glfwMakeContextCurrent(window);
 
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-    {
+    if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) {
         fprintf(stderr, "Failed to initialize Glad\n");
         exit(EXIT_FAILURE);
     }
 
-    const char *version = (const char *)glGetString(GL_VERSION);
+    const char *version = (const char *) glGetString(GL_VERSION);
     fprintf(stderr, "OpenGL version: %s\n", version);
 
     /////////////////////////
@@ -54,20 +51,20 @@ int main(int argc, char *argv[])
     float vertices[] =
         {
             // positions            // colors           // TexCoord
-            0.75f, 0.75f, 0.0f, 1.0f, 0.0f, 0.0f, 2.0f, 2.0f,  // top right
-            -0.75f, 0.75f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 2.0f, // top left
-            0.75f, -0.75f, 0.0f, 0.0f, 0.0f, 1.0f, 2.0f, 0.0f, // bottom right
-            -0.75f, -0.75f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f // bottom left
+            0.75f, 0.75f, 0.0f, 1.0f, 0.0f, 0.0f, 2.0f, 2.0f, // top right
+            -0.75f, 0.75f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 2.0f,// top left
+            0.75f, -0.75f, 0.0f, 0.0f, 0.0f, 1.0f, 2.0f, 0.0f,// bottom right
+            -0.75f, -0.75f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f// bottom left
 
         };
-    unsigned int indices[] = // It must to be unsigned int allways
+    unsigned int indices[] =// It must be unsigned int always
         {
             0,
             1,
-            2, // top triangle
+            2,// top triangle
             1,
             2,
-            3 // bottom triangle
+            3// bottom triangle
         };
 
     unsigned int VAO, VBO, EBO;
@@ -84,19 +81,19 @@ int main(int argc, char *argv[])
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), &indices, GL_STATIC_DRAW);
 
     // position
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *) 0);
     glEnableVertexAttribArray(0);
     // color
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *)(3 * sizeof(float)));
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *) (3 * sizeof(float)));
     glEnableVertexAttribArray(1);
     // TexCoord
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *)(6 * sizeof(float)));
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *) (6 * sizeof(float)));
     glEnableVertexAttribArray(2);
 
     /////////////
     // Textures
     /////////////
-    stbi_set_flip_vertically_on_load(true); // set stb_image.h to flip loaded texture's on the y-axis
+    stbi_set_flip_vertically_on_load(true);// set stb_image.h to flip loaded texture's on the y-axis
     // glEnable(GL_BLEND);
     // glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     // Load image data
@@ -106,7 +103,7 @@ int main(int argc, char *argv[])
     // config GL texture unit
     unsigned int texture;
     glGenTextures(1, &texture);
-    glBindTexture(GL_TEXTURE_2D, texture); // all upcomming GL_TEXTURE_2D oprations have effect on this texture object
+    glBindTexture(GL_TEXTURE_2D, texture);// all upcomming GL_TEXTURE_2D oprations have effect on this texture object
     // set the texture wrapping parameters
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -114,17 +111,14 @@ int main(int argc, char *argv[])
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-    if (data)
-    {
+    if (data) {
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, imageWidth, imageHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
         glGenerateMipmap(GL_TEXTURE_2D);
-    }
-    else
-    {
+    } else {
         fprintf(stderr, "Failed to load texture\n");
     }
 
-    data = stbi_load("C:/Dev/Graphics/resources/textures/Linux_pinguin.png",
+    data = stbi_load("C:/Dev/Graphics/resources/textures/Linux_penguin.png",
                      &imageWidth, &imageHeight, &nrImageChannels, 0);
     unsigned int texture2;
     glGenTextures(1, &texture2);
@@ -135,13 +129,10 @@ int main(int argc, char *argv[])
     glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    if (data)
-    {
+    if (data) {
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, imageWidth, imageHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
         glGenerateMipmap(GL_TEXTURE_2D);
-    }
-    else
-    {
+    } else {
         fprintf(stderr, "Failed to load Texture\n");
     }
 
@@ -150,7 +141,7 @@ int main(int argc, char *argv[])
     // Configure GL model
     /////////////////////////
     glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
-    glfwSetFramebufferSizeCallback(window, (GLFWframebuffersizefun)framebuffer_size_callback);
+    glfwSetFramebufferSizeCallback(window, (GLFWframebuffersizefun) framebuffer_size_callback);
     // GL_FILL -> normal
     // GL_LINE -> wireframe mode
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
@@ -166,8 +157,7 @@ int main(int argc, char *argv[])
     glActiveTexture(GL_TEXTURE1);
     glBindTexture(GL_TEXTURE_2D, texture2);
 
-    while (!glfwWindowShouldClose(window))
-    {
+    while (!glfwWindowShouldClose(window)) {
         // input
         processInput(window);
 
@@ -195,20 +185,17 @@ int main(int argc, char *argv[])
     return GL_TRUE;
 }
 
-void framebuffer_size_callback(GLFWwindow *window, uint16_t width, uint16_t height)
-{
+void framebuffer_size_callback(GLFWwindow *window, uint16_t width, uint16_t height) {
     glViewport(0, 0, width, height);
 }
 
-void processInput(GLFWwindow *window)
-{
+void processInput(GLFWwindow *window) {
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
 }
 
 // return GL_MAX_VERTEX_ATTRIB
-int getMaxVertexAttribs()
-{
+int getMaxVertexAttribs() {
     int nrAttribs = 0;
     glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &nrAttribs);
     return nrAttribs;

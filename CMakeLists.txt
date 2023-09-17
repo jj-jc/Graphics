@@ -13,7 +13,9 @@ ENDIF(NOT CMAKE_BUILD_TYPE)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/modules/")
 
+# Compile libraries if needed
 add_subdirectory(external/GLFW)
+add_subdirectory(external/glm)
 
 add_subdirectory(src/1.getting_started)
 
