@@ -6,6 +6,7 @@
     "xutility": "cpp",
     "array": "cpp",
     "string": "cpp",
-    "string_view": "cpp"
+    "string_view": "cpp",
+    "internal.h": "c"
   }
 }
