@@ -1,7 +1,7 @@
 // #include <iostream>
-#define GLFW_INCLUDE_NONE // to void compilation problems with extension loading library
-#include <glad/glad.h>
+#define GLFW_INCLUDE_NONE// to void compilation problems with extension loading library
 #include <GLFW/glfw3.h>
+#include <glad/glad.h>
 #include <stb_image.h>
 
 #include "shader.hpp"
@@ -46,7 +46,7 @@ int main(int argc, char *argv[]) {
     /////////////////////////
     // Configuring GL Objects
     /////////////////////////
-    Shader textureShader("C:/Dev/Graphics/resources/shaders/twoTextures.vs", "C:/Dev/Graphics/resources/shaders/twoTextures.fs");
+    Shader textureShader("resources/shaders/twoTextures.vs", "resources/shaders/twoTextures.fs");
 
     float vertices[] =
         {
@@ -98,7 +98,7 @@ int main(int argc, char *argv[]) {
     // glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     // Load image data
     int imageWidth, imageHeight, nrImageChannels;
-    unsigned char *data = stbi_load("C:/Dev/Graphics/resources/textures/Wood_Wall.jpg",
+    unsigned char *data = stbi_load("resources/textures/Wood_Wall.jpg",
                                     &imageWidth, &imageHeight, &nrImageChannels, 0);
     // config GL texture unit
     unsigned int texture;
@@ -118,7 +118,7 @@ int main(int argc, char *argv[]) {
         fprintf(stderr, "Failed to load texture\n");
     }
 
-    data = stbi_load("C:/Dev/Graphics/resources/textures/Linux_penguin.png",
+    data = stbi_load("resources/textures/Linux_penguin.png",
                      &imageWidth, &imageHeight, &nrImageChannels, 0);
     unsigned int texture2;
     glGenTextures(1, &texture2);
