@@ -13,6 +13,20 @@ ENDIF(NOT CMAKE_BUILD_TYPE)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/modules/")
 
+# Set the output directory for the build files
+set(CMAKE_BINARY_DIR "${CMAKE_CURRENT_SOURCE_DIR}/build")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
+
+# Copy resources into the output directory so they can be found at runtime by the executable. This is for debugging purposes only.
+add_custom_command(
+    OUTPUT "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/resources"
+    COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/resources" "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/resources"
+    COMMENT "Copying resources"
+    VERBATIM
+)
+add_custom_target(copy_resources ALL DEPENDS "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/resources")
+
+
 # Compile libraries if needed
 add_subdirectory(external/GLFW)
 add_subdirectory(external/glm)

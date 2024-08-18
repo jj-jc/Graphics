@@ -1,6 +1,7 @@
 #include <glad/glad.h>
 
 #include <GLFW/glfw3.h>
+#include <filesystem>
 #include <iostream>
 
 #include "shader.hpp"
@@ -17,6 +18,9 @@ int main(int argc, char *argv[]) {
     // Setting GL Context
     /////////////////////////
     std::cout << "Hellow World!" << std::endl;
+
+    std::cout << "Current path is " << std::filesystem::current_path() << std::endl;
+
 
     if (!glfwInit()) {
         fprintf(stderr, "Failed to initialize GLFW\n");

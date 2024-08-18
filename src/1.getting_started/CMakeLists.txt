@@ -5,8 +5,6 @@ cmake_minimum_required(VERSION 3.20)
 #########################
 project(hellowWindow)
 
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
-
 add_executable(${PROJECT_NAME} 
             ${CMAKE_SOURCE_DIR}/src/1.getting_started/1.1.hello_window/main.cpp
             ${CMAKE_SOURCE_DIR}/external/glad/src/glad.c)
@@ -28,9 +26,6 @@ target_link_libraries(${PROJECT_NAME}
 ##### helloTriangle #####
 #########################
 project(helloTriangle)
-
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
-
 
 add_executable(${PROJECT_NAME} 
             ${CMAKE_SOURCE_DIR}/src/1.getting_started/1.2.hello_Triangle/main.cpp
@@ -55,8 +50,6 @@ target_link_libraries(${PROJECT_NAME}
 ##### helloTexture  #####
 #########################
 project(helloTexture)
-
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 
 add_executable(${PROJECT_NAME} 
             ${CMAKE_SOURCE_DIR}/src/1.getting_started/1.3.hello_Texture/main.cpp
@@ -85,9 +78,6 @@ target_link_libraries(${PROJECT_NAME}
 ## Coordinate Systems  ##
 #########################
 project(coordinateSystems)
-
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
-
 
 add_executable(${PROJECT_NAME}
             ${CMAKE_SOURCE_DIR}/src/1.getting_started/1.4.coordinate_Systems/main.cpp
